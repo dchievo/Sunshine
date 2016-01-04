@@ -6,7 +6,6 @@
         android:defaultValue="@string/pref_location_default"
         android:inputType="text"
         android:singleLine="true"/>
-
     <PreferenceCategory
         android:title="Measurement">
 

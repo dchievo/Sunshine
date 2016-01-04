@@ -1,13 +1,9 @@
 package com.example.android.sunshine.app;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuInflater;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -36,6 +32,15 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             //create new intent as an address to go to settingsactivity.class
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        if (id == R.id.action_launch_map) {
+            //create URI then pass it via intent to open up google maps to view location
+
+            Uri gmmIntentUri = Uri.parse("google.com")
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;

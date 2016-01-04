@@ -10,4 +10,5 @@
     <string name="default_temperature">metric</string>
     <string name="temperature_title">Temperature</string>
     <string name="pref_temp_key">temperature</string>
+    <string name="action_launch_map">View Set Location</string>
 </resources>
