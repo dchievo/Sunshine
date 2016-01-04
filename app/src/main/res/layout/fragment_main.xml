@@ -1,0 +1,19 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".ForecastFragment"
+    tools:showIn="@layout/content_main">
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listview_forecast"
+        />
+<include
+    android:id="@+id/list_item_forecast"
+    layout="@layout/list_item_forecast"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
+</LinearLayout>
