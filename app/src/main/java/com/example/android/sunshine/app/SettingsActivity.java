@@ -1,15 +1,10 @@
 package com.example.android.sunshine.app;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.location.Location;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.KeyEvent;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings.
@@ -32,6 +27,7 @@ public class SettingsActivity extends PreferenceActivity
         // updated when the preference changes.
         // TODO: Add preferences
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_temp_key)));
         /*SharedPreferences preferences = this.getSharedPreferences("example", Context.MODE_PRIVATE);
         String example = preferences.getString("location", null);
         Log.i("Location", example);*/
