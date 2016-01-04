@@ -32,9 +32,12 @@ public class SettingsActivity extends PreferenceActivity
         // updated when the preference changes.
         // TODO: Add preferences
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
-        SharedPreferences preferences = this.getSharedPreferences("example", Context.MODE_PRIVATE);
+        /*SharedPreferences preferences = this.getSharedPreferences("example", Context.MODE_PRIVATE);
         String example = preferences.getString("location", null);
-        Log.i("Location", example);
+        Log.i("Location", example);*/
+
+
+
     }
 
     /**
@@ -72,5 +75,4 @@ public class SettingsActivity extends PreferenceActivity
         }
         return true;
     }
-
 }
