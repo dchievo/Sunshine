@@ -1,14 +1,11 @@
 package com.example.android.sunshine.app;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,20 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
-import com.example.android.sunshine.app.FetchWeatherTask;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -53,7 +40,7 @@ public class ForecastFragment extends Fragment {
 
         //initialize ArrayList named fakeData and add the values from ArrayList with forecast data into it
         List<String> fakeData = new ArrayList<>();
-        fakeData.addAll(createArray());
+        //fakeData.addAll(createArray());
         //created a View named rootView by inflating the layout fragment_main.xml.
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -90,45 +77,6 @@ public class ForecastFragment extends Fragment {
         return rootView;
     }
 
-    //create ArrayList<String> and add the String[] list into it
-    private List<String> createArray()
-    {
-        List<String> forecastList = new ArrayList<String>(Arrays.asList(createStringArray()));
-        return forecastList;
-    }
-
-    //create String[] list and initializing with values for forecast
-    private String[] createStringArray()
-    {
-        String[] forecastStringArray = {
-                "Today - Sunny - 88/63",
-                "Tomorrow - Foggy - 70/46",
-                "Weds - Cloudy - 72/63",
-                "Thurs - Rainy - 64/51",
-                "Fri - Foggy - 70/46",
-                "Sat - Sunny - 76/68",
-                "Today - Sunny - 88/63",
-                "Tomorrow - Foggy - 70/46",
-                "Weds - Cloudy - 72/63",
-                "Thurs - Rainy - 64/51",
-                "Fri - Foggy - 70/46",
-                "Sat - Sunny - 76/68",
-                "Today - Sunny - 88/63",
-                "Tomorrow - Foggy - 70/46",
-                "Weds - Cloudy - 72/63",
-                "Thurs - Rainy - 64/51",
-                "Fri - Foggy - 70/46",
-                "Sat - Sunny - 76/68",
-                "Today - Sunny - 88/63",
-                "Tomorrow - Foggy - 70/46",
-                "Weds - Cloudy - 72/63",
-                "Thurs - Rainy - 64/51",
-                "Fri - Foggy - 70/46",
-                "Sat - Sunny - 76/68"
-        };
-        return forecastStringArray;
-    }
-
     private ArrayAdapter<String> createArrayAdapter(List<String> fakeData)
     {
         adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.listview_forecast_textview, new ArrayList<String>());
@@ -163,8 +111,15 @@ public class ForecastFragment extends Fragment {
     private FetchWeatherTask updateWeather() {
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String zipcode = sharedPreferences.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
-        Toast.makeText(getContext(), zipcode, Toast.LENGTH_SHORT).show();
+        // Assigning zipcode/weather string variable the value from sharedPreferences via (value if there is one saved in sharedpref and if not the default
+        // value is given (which you defined within the pref_general menu layout
+        String zipcode = sharedPreferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        String temperature = sharedPreferences.getString(getString(R.string.pref_temp_key),getString(R.string.default_temperature));
+
+        //Used to test String variable
+        //Toast.makeText(getContext(), zipcode, Toast.LENGTH_SHORT).show();
+
+        //Toast.makeText(getContext(), temperature, Toast.LENGTH_SHORT).show();
         fetchWeatherTask.execute(zipcode);
         try {
             //assigns JSON values from fetchWeatherTask.get() to weather variable

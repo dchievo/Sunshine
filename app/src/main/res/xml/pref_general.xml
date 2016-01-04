@@ -6,4 +6,16 @@
         android:defaultValue="@string/pref_location_default"
         android:inputType="text"
         android:singleLine="true"/>
+
+    <PreferenceCategory
+        android:title="Measurement">
+
+        <ListPreference
+            android:title="@string/temperature_title"
+            android:key="@string/pref_temp_key"
+            android:defaultValue="@string/default_temperature"
+            android:entries="@array/list_temp_array"
+            android:entryValues="@array/list_temp_values_array"/>
+
+    </PreferenceCategory>
 </PreferenceScreen>
