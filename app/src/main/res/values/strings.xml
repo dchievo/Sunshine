@@ -7,4 +7,7 @@
     <string name="pref_location_label">Location</string>
     <string name="pref_location_key">location</string>
     <string name="pref_location_default">92704</string>
+    <string name="default_temperature">metric</string>
+    <string name="temperature_title">Temperature</string>
+    <string name="pref_temp_key">temperature</string>
 </resources>
