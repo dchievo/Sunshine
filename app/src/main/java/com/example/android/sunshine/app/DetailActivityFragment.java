@@ -22,7 +22,11 @@ public class DetailActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
-
+        Intent intent = getActivity().getIntent();
+        String weather = intent.getStringExtra(ForecastFragment.WEATHER);
+        //Log.i("Weather", weather);
+        TextView textView = (TextView)view.findViewById(R.id.detail_fragment_text_view);
+        textView.setText(weather);
         return view;
     }
 }

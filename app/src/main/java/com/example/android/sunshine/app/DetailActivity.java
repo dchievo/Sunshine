@@ -43,11 +43,11 @@ public class DetailActivity extends AppCompatActivity {
                     .commit();
         }*/
 
-        Intent intent = getIntent();
+/*        Intent intent = getIntent();
         String weather = intent.getStringExtra(ForecastFragment.WEATHER);
-        Log.i("Weather", weather);
+        //Log.i("Weather", weather);
         TextView textView = (TextView)findViewById(R.id.detail_fragment_text_view);
-        textView.setText(weather);
+        textView.setText(weather);*/
 
 /*        TextView sampleTextView = new TextView(this.getApplicationContext());
         sampleTextView.setText(weather);
@@ -80,20 +80,4 @@ public class DetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-            return rootView;
-        }
-    }
 }
