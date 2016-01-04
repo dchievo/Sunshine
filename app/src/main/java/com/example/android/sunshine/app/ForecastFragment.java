@@ -1,7 +1,11 @@
 package com.example.android.sunshine.app;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +42,7 @@ public class ForecastFragment extends Fragment {
     private String[] weather;
     ListView listView;
     ArrayAdapter<String> adapter;
+    public static final String WEATHER = "";
 
     public ForecastFragment() {
     }
@@ -76,7 +81,10 @@ public class ForecastFragment extends Fragment {
 
                 //Toast is based off of Context of Activity, String value that you want to show on screen
                 //Toast.LENGTH_SHORT to show
-                Toast.makeText(getActivity().getApplicationContext(), weather , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity().getApplicationContext(), weather , Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(WEATHER, weather);
+                startActivity(intent);
             }
         });
         return rootView;
@@ -123,7 +131,7 @@ public class ForecastFragment extends Fragment {
 
     private ArrayAdapter<String> createArrayAdapter(List<String> fakeData)
     {
-        adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.listview_forecast_textview, fakeData);
+        adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.listview_forecast_textview, new ArrayList<String>());
 
         return adapter;
     }
@@ -144,32 +152,50 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_refresh)
         {
-            FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            fetchWeatherTask.execute("92704");
-            try {
-                weather = fetchWeatherTask.get();
-                //ArrayList<String> refreshedWeather = new ArrayList<String>(Arrays.asList(weather));
-                //only way this worked was passing in a String[] and not as a ArrayList that way it
-                //was not casted into a Non-modifiable List
+            FetchWeatherTask fetchWeatherTask = updateWeather();
 
-                // clears adapter of all set values
-                adapter.clear();
-
-                // adds weather data grabbed by FetchWeatherTask AsyncTask onPostExecute().get() string data
-                adapter.addAll(weather);
-
-                // notifies adapter that data set was changed/updated.  observers automatically call
-                //this method so it's unnecessary to call manually
-                //adapter.notifyDataSetChanged();
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @NonNull
+    private FetchWeatherTask updateWeather() {
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String zipcode = sharedPreferences.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
+        Toast.makeText(getContext(), zipcode, Toast.LENGTH_SHORT).show();
+        fetchWeatherTask.execute(zipcode);
+        try {
+            //assigns JSON values from fetchWeatherTask.get() to weather variable
+            weather = fetchWeatherTask.get();
+            //ArrayList<String> refreshedWeather = new ArrayList<String>(Arrays.asList(weather));
+            //only way this worked was passing in a String[] and not as a ArrayList that way it
+            //was not casted into a Non-modifiable List
+
+            // clears adapter of all set values
+            adapter.clear();
+
+            // adds weather data grabbed by FetchWeatherTask AsyncTask onPostExecute().get() string data
+            adapter.addAll(weather);
+
+            // notifies adapter that data set was changed/updated.  observers automatically call
+            //this method so it's unnecessary to call manually
+            //adapter.notifyDataSetChanged();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return fetchWeatherTask;
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        updateWeather();
     }
 
 /*    private String grabWeatherData(String zipcode) {
