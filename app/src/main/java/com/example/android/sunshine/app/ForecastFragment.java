@@ -1,6 +1,7 @@
 package com.example.android.sunshine.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ public class ForecastFragment extends Fragment {
     private String[] weather;
     ListView listView;
     ArrayAdapter<String> adapter;
+    public static final String WEATHER = "";
 
     public ForecastFragment() {
     }
@@ -76,7 +78,10 @@ public class ForecastFragment extends Fragment {
 
                 //Toast is based off of Context of Activity, String value that you want to show on screen
                 //Toast.LENGTH_SHORT to show
-                Toast.makeText(getActivity().getApplicationContext(), weather , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity().getApplicationContext(), weather , Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(WEATHER, weather);
+                startActivity(intent);
             }
         });
         return rootView;
