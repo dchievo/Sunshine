@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="list_temp_array">
-        <item>metric</item>
-        <item>imperial</item>
+        <item>Metric</item>
+        <item>Imperial</item>
     </string-array>
 
     <string-array name="list_temp_values_array">

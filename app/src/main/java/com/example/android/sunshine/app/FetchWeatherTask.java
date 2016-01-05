@@ -38,10 +38,22 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
     /**
      * Prepare the weather high/lows for presentation.
      */
-    private String formatHighLows(double high, double low) {
+    private String formatHighLows(double high, double low, String measurementType) {
         // For presentation, assume the user doesn't care about tenths of a degree.
-        long roundedHigh = Math.round(high);
-        long roundedLow = Math.round(low);
+
+
+        long roundedHigh = 0L;
+        long roundedLow = 0L;
+
+        if (measurementType.equals("metric"))
+        {
+            roundedHigh = Math.round(high);
+            roundedLow = Math.round(low);
+        } else if (measurementType.equals("imperial"))
+        {
+            roundedHigh = Math.round((high * (9/5) + 32));
+            roundedLow = Math.round((low * (9/5) + 32));
+        }
 
         String highLowStr = roundedHigh + "/" + roundedLow;
         return highLowStr;
@@ -54,7 +66,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
      * Fortunately parsing is easy:  constructor takes the JSON string and converts it
      * into an Object hierarchy for us.
      */
-    private String[] getWeatherDataFromJson(String forecastJsonStr, int numDays)
+    private String[] getWeatherDataFromJson(String forecastJsonStr, int numDays, String measurementType)
             throws JSONException {
 
         // These are the names of the JSON objects that need to be extracted.
@@ -113,7 +125,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
             double high = temperatureObject.getDouble(OWM_MAX);
             double low = temperatureObject.getDouble(OWM_MIN);
 
-            highAndLow = formatHighLows(high, low);
+            highAndLow = formatHighLows(high, low, measurementType);
             resultStrs[i] = day + " - " + description + " - " + highAndLow;
         }
 
@@ -135,12 +147,8 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         String[] weather = new String[numOfDays];
         try
         {
-            weather = getWeatherDataFromJson(grabWeatherData(params[0]), numOfDays);
+            weather = getWeatherDataFromJson(grabWeatherData(params[0]), numOfDays, params[1]);
 
-            for (String string : weather)
-            {
-                Log.i("Data", string);
-            }
         } catch (JSONException e)
         {
             Log.i("JSONException", e.toString());

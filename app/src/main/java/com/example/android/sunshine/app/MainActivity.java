@@ -1,5 +1,6 @@
 package com.example.android.sunshine.app;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -8,6 +9,8 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar myToolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolBar);
     }
 
     @Override
@@ -41,23 +46,24 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.action_launch_map) {
             //create URI then pass it via intent to open up google maps to view location
-
-            final String gmaps = "http://maps.google.com/maps/?q=";
-
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            String zipcode = sharedPreferences.getString("location", "");
-
-
-            Uri gmmIntentUri = Uri.parse(gmaps + zipcode);
-            Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, gmmIntentUri);
-            mapIntent.setPackage("com.google.android.apps.maps");
-            if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(mapIntent);
-            }
+            getPreferredLocation();
             return true;
-
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getPreferredLocation() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String zipcode = sharedPreferences.getString("location","");
+        //Toast.makeText(MainActivity.this, zipcode, Toast.LENGTH_SHORT).show();
+        String gmaps = "http://maps.google.com/maps?q=";
+        Uri gmmIntentUri = Uri.parse(gmaps + zipcode); //"geo:37.7749,-122.4194");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(getPackageManager()) != null)
+        {
+            startActivity(mapIntent);
+        }
     }
 }
