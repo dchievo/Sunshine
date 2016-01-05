@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +31,7 @@ public class ForecastFragment extends Fragment {
     ListView listView;
     ArrayAdapter<String> adapter;
     public static final String WEATHER = "";
+    private SharedPreferences mShareActionProvider;
 
     public ForecastFragment() {
     }
@@ -93,7 +95,17 @@ public class ForecastFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.forecastfragment, menu);
+
+        MenuItem item = menu.findItem(R.id.action_launch_map);
+        mShareActionProvider = (SharedPreferences) item.getActionProvider();
     }
+
+/*    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
