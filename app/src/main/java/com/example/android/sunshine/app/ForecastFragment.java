@@ -95,9 +95,9 @@ public class ForecastFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.forecastfragment, menu);
-
-        MenuItem item = menu.findItem(R.id.action_launch_map);
-        mShareActionProvider = (SharedPreferences) item.getActionProvider();
+/*
+        MenuItem item = menu.findItem(R.id.action_launch_map);*/
+/*        mShareActionProvider = (SharedPreferences) item.getActionProvider();*/
     }
 
 /*    // Call to update the share intent
