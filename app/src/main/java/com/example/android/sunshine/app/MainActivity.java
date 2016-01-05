@@ -1,13 +1,11 @@
 package com.example.android.sunshine.app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuInflater;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -39,6 +37,25 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
+        }
+
+        if (id == R.id.action_launch_map) {
+            //create URI then pass it via intent to open up google maps to view location
+
+            final String gmaps = "http://maps.google.com/maps/?q=";
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            String zipcode = sharedPreferences.getString("location", "");
+
+
+            Uri gmmIntentUri = Uri.parse(gmaps + zipcode);
+            Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(mapIntent);
+            }
+            return true;
+
         }
 
         return super.onOptionsItemSelected(item);
