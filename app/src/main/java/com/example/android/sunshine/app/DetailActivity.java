@@ -18,21 +18,17 @@ package com.example.android.sunshine.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 public class DetailActivity extends AppCompatActivity {
+
+    private android.support.v7.widget.ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +37,14 @@ public class DetailActivity extends AppCompatActivity {
 
         Toolbar myToolBar = (Toolbar) findViewById(R.id.toolbar_detail);
         setSupportActionBar(myToolBar);
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        try {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        } catch (NullPointerException e) {
+            Log.i("Null Pointer: ", e.toString());
+        }
+
 /*        if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new DetailActivityFragment())
@@ -57,7 +61,11 @@ public class DetailActivity extends AppCompatActivity {
         sampleTextView.setText(weather);
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.detail_fragment_relative_layout);
         layout.addView(sampleTextView);*/
-
+/*        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);*/
 
     }
 
@@ -66,6 +74,17 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_detail, menu);
+
+        // Inflate share menu
+        getMenuInflater().inflate(R.menu.share_menu, menu);
+
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+
+        // Fetch and store ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+
         return true;
     }
 
@@ -81,7 +100,18 @@ public class DetailActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.menu_item_share) {
+
+        }
         return super.onOptionsItemSelected(item);
     }
 
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
 }

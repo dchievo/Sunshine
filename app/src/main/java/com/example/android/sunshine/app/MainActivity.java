@@ -1,16 +1,14 @@
 package com.example.android.sunshine.app;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,7 +56,11 @@ public class MainActivity extends AppCompatActivity {
         String zipcode = sharedPreferences.getString("location","");
         //Toast.makeText(MainActivity.this, zipcode, Toast.LENGTH_SHORT).show();
         String gmaps = "http://maps.google.com/maps?q=";
-        Uri gmmIntentUri = Uri.parse(gmaps + zipcode); //"geo:37.7749,-122.4194");
+        //Uri gmmIntentUri = Uri.parse(gmaps + zipcode); //"geo:37.7749,-122.4194"); -- my way of doing it
+        //They used the buildUpon() method to construct query then passed it into the intent as an ACTION_VIEW
+        Uri gmmIntentUri = Uri.parse(gmaps).buildUpon()
+                            .appendQueryParameter("q",zipcode)
+                            .build();
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         if (mapIntent.resolveActivity(getPackageManager()) != null)
