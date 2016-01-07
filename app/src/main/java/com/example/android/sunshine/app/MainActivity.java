@@ -5,25 +5,51 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    private android.support.v7.widget.ShareActionProvider mShareActionProvider;
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Basically enabling appbar... actionbar is deprecated
         Toolbar myToolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolBar);
+
+        // Create actionBar then set it to show up in MainActivity
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        try {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        } catch (NullPointerException e) {
+            Log.i("Null Pointer: ", e.toString());
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        // Inflate share menu
+        getMenuInflater().inflate(R.menu.share_menu, menu);
+
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+
+        // Fetch and store ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+
         return true;
     }
 
@@ -43,16 +69,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_launch_map) {
-            //create URI then pass it via intent to open up google maps to view location
+            // call method that creates URI then pass it via intent to open up google maps to view location
             getPreferredLocation();
             return true;
+        }
+
+        // ShareIntent that sends the weather info to an app of your preference
+        if (id == R.id.menu_item_share) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     private void getPreferredLocation() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String zipcode = sharedPreferences.getString("location","");
         //Toast.makeText(MainActivity.this, zipcode, Toast.LENGTH_SHORT).show();
         String gmaps = "http://maps.google.com/maps?q=";

@@ -44,29 +44,6 @@ public class DetailActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             Log.i("Null Pointer: ", e.toString());
         }
-
-/*        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new DetailActivityFragment())
-                    .commit();
-        }*/
-
-/*        Intent intent = getIntent();
-        String weather = intent.getStringExtra(ForecastFragment.WEATHER);
-        //Log.i("Weather", weather);
-        TextView textView = (TextView)findViewById(R.id.detail_fragment_text_view);
-        textView.setText(weather);*/
-
-/*        TextView sampleTextView = new TextView(this.getApplicationContext());
-        sampleTextView.setText(weather);
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.detail_fragment_relative_layout);
-        layout.addView(sampleTextView);*/
-/*        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-        sendIntent.setType("text/plain");
-        startActivity(sendIntent);*/
-
     }
 
 
@@ -75,6 +52,7 @@ public class DetailActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_detail, menu);
 
+/*
         // Inflate share menu
         getMenuInflater().inflate(R.menu.share_menu, menu);
 
@@ -84,6 +62,7 @@ public class DetailActivity extends AppCompatActivity {
         // Fetch and store ShareActionProvider
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 
+*/
 
         return true;
     }
@@ -100,18 +79,25 @@ public class DetailActivity extends AppCompatActivity {
             return true;
         }
 
-        if (id == R.id.menu_item_share) {
+        /*if (id == R.id.menu_item_share) {
 
-        }
+            Intent intent = getApplicationContext().getIntent();
+            String weather = intent.getStringExtra(ForecastFragment.WEATHER);
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
+        }*/
         return super.onOptionsItemSelected(item);
     }
 
 
-    // Call to update the share intent
+/*    // Call to update the share intent
     private void setShareIntent(Intent shareIntent) {
 
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(shareIntent);
         }
-    }
+    }*/
 }
