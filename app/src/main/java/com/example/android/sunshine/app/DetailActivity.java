@@ -16,11 +16,8 @@
 
 package com.example.android.sunshine.app;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -40,6 +37,7 @@ public class DetailActivity extends AppCompatActivity {
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         try {
+            assert actionBar != null;
             actionBar.setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException e) {
             Log.i("Null Pointer: ", e.toString());
